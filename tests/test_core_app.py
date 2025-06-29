@@ -1,9 +1,9 @@
-from unittest.mock import MagicMock, call
+from unittest.mock import MagicMock
 from steamprotipsai.core.app import SteamProTipsApp
 from steamprotipsai.core.ports import HotkeyListener, ScreenshotCapturer, GameDetector, GPTClient
 
 
-def test_app_run_triggers_listener_and_handles_hotkey():
+def test_app_run_registers_hotkey_callback_and_triggers_flow():
     # Arrange
     mock_listener = MagicMock(spec=HotkeyListener)
     mock_screenshot = MagicMock(spec=ScreenshotCapturer)
@@ -14,12 +14,11 @@ def test_app_run_triggers_listener_and_handles_hotkey():
     mock_game.detect.return_value = "Cool Game"
     mock_gpt.ask_for_tip.return_value = "Here's a cool tip!"
 
-    # Capture the callback
-    callback_captured = None
+    captured_callback = None
 
     def capture_callback(callback):
-        nonlocal callback_captured
-        callback_captured = callback
+        nonlocal captured_callback
+        captured_callback = callback
 
     mock_listener.listen.side_effect = capture_callback
 
@@ -30,17 +29,52 @@ def test_app_run_triggers_listener_and_handles_hotkey():
         game_detector=mock_game,
         gpt_client=mock_gpt
     )
-    app.run()  # this should register the callback
-    assert callback_captured is not None, "Callback was not passed to listen()"
+    app.run()
 
-    # Simulate hotkey press
-    callback_captured()
-
-    # Assert
+    # Assert: run() registered callback
     mock_listener.listen.assert_called_once()
+    assert captured_callback is not None
+
+    # Simulate pressing the hotkey
+    captured_callback()
+
+    # Assert: ports called correctly
     mock_screenshot.capture.assert_called_once()
     mock_game.detect.assert_called_once()
     mock_gpt.ask_for_tip.assert_called_once_with(
         "Game: Cool Game. See the attached image. Give a short, practical tip in the style of a 90s magazine.",
         "mock_screenshot.png"
     )
+
+
+def test_handle_hotkey_calls_ports_in_correct_order():
+    # Arrange: manually track call order
+    call_order = []
+
+    def track(name, return_value):
+        def _():
+            call_order.append(name)
+            return return_value
+        return _
+
+    mock_listener = MagicMock(spec=HotkeyListener)
+    mock_screenshot = MagicMock(spec=ScreenshotCapturer)
+    mock_game = MagicMock(spec=GameDetector)
+    mock_gpt = MagicMock(spec=GPTClient)
+
+    mock_screenshot.capture.side_effect = track("screenshot", "screen.png")
+    mock_game.detect.side_effect = track("game", "MockGame")
+    mock_gpt.ask_for_tip.side_effect = track("gpt", "AI tip")
+
+    app = SteamProTipsApp(
+        hotkey_listener=mock_listener,
+        screenshot_capturer=mock_screenshot,
+        game_detector=mock_game,
+        gpt_client=mock_gpt
+    )
+
+    # Act
+    app.handle_hotkey()
+
+    # Assert
+    assert call_order == ["screenshot", "game", "gpt"], f"Unexpected call order: {call_order}"
