@@ -48,7 +48,6 @@ def test_app_run_registers_hotkey_callback_and_triggers_flow():
 
 
 def test_handle_hotkey_calls_ports_in_correct_order():
-    # Arrange: manually track call order
     call_order = []
 
     def track_screenshot():
@@ -72,15 +71,26 @@ def test_handle_hotkey_calls_ports_in_correct_order():
     mock_game.detect.side_effect = track_game
     mock_gpt.ask_for_tip.side_effect = track_gpt
 
+    captured_callback = None
+
+    def capture_callback(cb):
+        nonlocal captured_callback
+        captured_callback = cb
+
+    mock_listener.listen.side_effect = capture_callback
+
     app = SteamProTipsApp(
         hotkey_listener=mock_listener,
         screenshot_capturer=mock_screenshot,
         game_detector=mock_game,
-        gpt_client=mock_gpt
+        gpt_client=mock_gpt,
     )
 
-    # Act
     app.run()
+    assert captured_callback is not None
 
-    # Assert
+    # Simulate hotkey press
+    captured_callback()
+
+    # Assert: call order
     assert call_order == ["screenshot", "game", "gpt"], f"Unexpected call order: {call_order}"
