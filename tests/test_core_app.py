@@ -80,7 +80,7 @@ def test_handle_hotkey_calls_ports_in_correct_order():
     )
 
     # Act
-    app.handle_hotkey()
+    app.run()
 
     # Assert
     assert call_order == ["screenshot", "game", "gpt"], f"Unexpected call order: {call_order}"

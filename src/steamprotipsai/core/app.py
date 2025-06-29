@@ -21,9 +21,9 @@ class SteamProTipsApp:
 
     def run(self):
         print("SteamProTipsAI started. Press the configured shortcut to capture the screen and get a tip!")
-        self.hotkey_listener.listen(self.handle_hotkey)
+        self.hotkey_listener.listen(self._handle_hotkey)
 
-    def handle_hotkey(self):
+    def _handle_hotkey(self):
         print("\nShortcut detected! Capturing screen...")
 
         screenshot_path = self.screenshot_capturer.capture()
