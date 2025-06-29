@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Steam Pro Tips AI
-Comment=Listens for Steam hotkeys and gives AI tips while you play
+Comment=Listens for Steam screenshots and gives AI tips while you play
 Exec=steamprotipsai
 Icon=com.lepsistemas.SteamProTipsAI
 Terminal=true
