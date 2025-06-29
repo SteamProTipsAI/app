@@ -1,23 +1,19 @@
 from abc import ABC, abstractmethod
 
-
-class HotkeyListener(ABC):
+class ScreenshotWatcher(ABC):
     @abstractmethod
-    def listen(self, callback):
+    def watch(self, callback):
         pass
-
 
 class ScreenshotCapturer(ABC):
     @abstractmethod
     def capture(self) -> str:
         pass
 
-
 class GameDetector(ABC):
     @abstractmethod
     def detect(self) -> str:
         pass
-
 
 class GPTClient(ABC):
     @abstractmethod

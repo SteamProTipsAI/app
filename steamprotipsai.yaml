@@ -16,3 +16,11 @@ modules:
    sources:
      - type: dir
        path: .
+finish-args:
+  - --filesystem=home
+  - --filesystem=xdg-pictures/Steam:ro
+  - --socket=wayland
+  - --socket=x11
+  - --device=dri
+  - --share=network
+  - --talk-name=org.freedesktop.portal.*
