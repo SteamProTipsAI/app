@@ -1,0 +1,21 @@
+app-id: com.lepsistemas.SteamProTipsAI
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+command: steamprotipsai
+modules:
+  - name: poetry
+    buildsystem: simple
+    build-commands:
+      - pip3 install poetry
+    sources: []
+
+  - name: steamprotipsai
+    buildsystem: simple
+    build-commands:
+      - poetry install
+      - install -Dm755 ../../launch.sh /app/launch.sh
+      - install -Dm644 ../../steamprotipsai.desktop /app/share/applications/steamprotipsai.desktop
+    sources:
+      - type: dir
+        path: ../..
