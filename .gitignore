@@ -1,7 +1,0 @@
-# Ignore Python
-__pycache__/
-**/__pycache__/
-*.py[cod]
-
-# Ignore Flatpak
-.flatpak-builder/
