@@ -9,6 +9,8 @@ packages = [{ include = "steamprotipsai", from = "src" }]
 [tool.poetry.dependencies]
 python = ">=3.12,<4.0"
 watchdog = "^6.0.0"
+pygobject = { version = "^3.52.3", markers = "sys_platform == 'linux'" }
+pycairo = { version = "^1.28.0", markers = "sys_platform == 'linux'" }
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.1"
