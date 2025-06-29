@@ -15,22 +15,22 @@ class EvdevHotkeyListener(HotkeyListener):
         self.key_code = key_code
 
     def listen(self, callback):
-        print(f"⏳ Listening for hotkey ({self.key_code}) via evdev...")
+        print(f"Listening for hotkey ({self.key_code}) via evdev...")
 
         # Get all input devices
         devices = [InputDevice(path) for path in evdev.list_devices()]
         keyboards = [dev for dev in devices if "keyboard" in dev.name.lower() or "kbd" in dev.name.lower()]
 
         if not keyboards:
-            print("⚠️ No keyboard-like input device found via evdev.")
+            print("No keyboard-like input device found via evdev.")
             return
 
         for dev in keyboards:
-            print(f"🖮 Listening to: {dev.path} - {dev.name}")
+            print(f"Listening to: {dev.path} - {dev.name}")
             try:
                 dev.grab()  # optional: prevent propagation
             except OSError:
-                print(f"⚠️ Could not grab device: {dev.path}")
+                print(f"Could not grab device: {dev.path}")
 
         try:
             while True:
