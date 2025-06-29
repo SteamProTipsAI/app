@@ -43,14 +43,14 @@ class EvdevHotkeyListener(HotkeyListener):
                                     key_event.keystate == key_event.key_down
                                     and key_event.keycode == self.key_code
                                 ):
-                                    print(f"🔑 Hotkey ({self.key_code}) detected.")
+                                    print(f"Hotkey ({self.key_code}) detected.")
                                     callback()
                     except BlockingIOError:
                         continue
                     except Exception as e:
                         print(f"⚠️ Error reading device {dev.path}: {e}")
         except KeyboardInterrupt:
-            print("🛑 Listener interrupted by user.")
+            print("Listener interrupted by user.")
         finally:
             for dev in keyboards:
                 try:
