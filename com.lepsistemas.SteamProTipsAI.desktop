@@ -1,7 +1,13 @@
 [Desktop Entry]
-Name=SteamProTipsAI
+Name=Steam Pro Tips AI
+Comment=Listens for Steam hotkeys and gives AI tips while you play
 Exec=steamprotipsai
 Icon=com.lepsistemas.SteamProTipsAI
 Terminal=true
 Type=Application
 Categories=Game;Utility;
+
+X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Delay=3
+Hidden=false
+NoDisplay=false
