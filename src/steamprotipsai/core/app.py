@@ -3,6 +3,7 @@ from steamprotipsai.core.ports import (
     GameDetector,
     GPTClient,
     ScreenshotWatcher,
+    StatusReporter
 )
 
 class SteamProTipsApp:
@@ -12,19 +13,20 @@ class SteamProTipsApp:
         game_detector: GameDetector,
         gpt_client: GPTClient,
         screenshot_watcher: ScreenshotWatcher,
+        status_reporter: StatusReporter = None,
     ):
         self.screenshot_capturer = screenshot_capturer
         self.game_detector = game_detector
         self.gpt_client = gpt_client
         self.screenshot_watcher = screenshot_watcher
+        self.status_reporter = status_reporter
 
     def run(self):
-        print("SteamProTipsAI started.")
-        print("Take a screenshot to receive a tip.")
         self.screenshot_watcher.watch(self._handle_screenshot)
 
     def _handle_screenshot(self, path: str):
-        print(f"\n[Watcher] Screenshot automatically detected: {path}")
+        if self.status_reporter:
+            self.status_reporter.show_message(f"Screenshot detected: {path}")
 
         try:
             import subprocess
@@ -35,15 +37,16 @@ class SteamProTipsApp:
                 "--text=Would you like an AI tip for this moment?"
             ])
             if result.returncode != 0:
-                print("[Watcher] User declined the tip.")
+                if self.status_reporter:
+                    self.status_reporter.show_message("User declined the tip.")
                 return
         except FileNotFoundError:
-            print("[Watcher] Zenity not found. Skipping prompt...")
+            if self.status_reporter:
+                self.status_reporter.show_message("Zenity not found. Skipping prompt...")
 
         game_name = self.game_detector.detect()
-        print(f"[Watcher] Game detected: {game_name}")
-
         prompt = f"Game: {game_name}. See the attached image. Give a short, practical tip in the style of a 90s magazine."
         tip = self.gpt_client.ask_for_tip(prompt, path)
 
-        print(f"\n💡 Tip received: {tip}\n")
+        if self.status_reporter:
+            self.status_reporter.show_tip(tip)

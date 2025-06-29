@@ -19,3 +19,11 @@ class GPTClient(ABC):
     @abstractmethod
     def ask_for_tip(self, prompt: str, screenshot_path: str) -> str:
         pass
+
+class StatusReporter(ABC):
+    @abstractmethod
+    def show_message(self, text: str):
+        pass
+    @abstractmethod
+    def show_tip(self, tip: str):
+        pass
