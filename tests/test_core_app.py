@@ -51,20 +51,26 @@ def test_handle_hotkey_calls_ports_in_correct_order():
     # Arrange: manually track call order
     call_order = []
 
-    def track(name, return_value):
-        def _():
-            call_order.append(name)
-            return return_value
-        return _
+    def track_screenshot():
+        call_order.append("screenshot")
+        return "screen.png"
+
+    def track_game():
+        call_order.append("game")
+        return "MockGame"
+
+    def track_gpt(prompt, screenshot_path):
+        call_order.append("gpt")
+        return "AI tip"
 
     mock_listener = MagicMock(spec=HotkeyListener)
     mock_screenshot = MagicMock(spec=ScreenshotCapturer)
     mock_game = MagicMock(spec=GameDetector)
     mock_gpt = MagicMock(spec=GPTClient)
 
-    mock_screenshot.capture.side_effect = track("screenshot", "screen.png")
-    mock_game.detect.side_effect = track("game", "MockGame")
-    mock_gpt.ask_for_tip.side_effect = track("gpt", "AI tip")
+    mock_screenshot.capture.side_effect = track_screenshot
+    mock_game.detect.side_effect = track_game
+    mock_gpt.ask_for_tip.side_effect = track_gpt
 
     app = SteamProTipsApp(
         hotkey_listener=mock_listener,
