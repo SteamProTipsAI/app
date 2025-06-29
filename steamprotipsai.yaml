@@ -8,7 +8,7 @@ modules:
    buildsystem: simple
    build-commands:
      - install -Dm755 launch.sh /app/bin/steamprotipsai
-     - install -Dm644 icons/hicolor/256x256/apps/com.lepsistemas.SteamProTipsAI.png /app/share/icons/hicolor/256x256/apps/com.lepsistemas.SteamProTipsAI.png
+     - install -Dm644 icons/hicolor/512x512/apps/com.lepsistemas.SteamProTipsAI.png /app/share/icons/hicolor/512x512/apps/com.lepsistemas.SteamProTipsAI.png
      - install -Dm644 com.lepsistemas.SteamProTipsAI.desktop /app/share/applications/com.lepsistemas.SteamProTipsAI.desktop
      - mkdir -p /app/src
      - cp -r src/steamprotipsai /app/src/steamprotipsai
