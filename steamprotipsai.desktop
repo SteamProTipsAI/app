@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=SteamProTipsAI
-Exec=sh -c 'cd /app && ./launch.sh'
+Exec=/app/launch.sh
 Icon=utilities-terminal
 Terminal=true
 Type=Application
