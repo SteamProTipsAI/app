@@ -1,0 +1,4 @@
+# Ignora todos os caches compilados do Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
