@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /app
-python3 src/steamprotipsai/cli_main.py
+PYTHONPATH=/app/src python3 /app/src/steamprotipsai/cli_main.py

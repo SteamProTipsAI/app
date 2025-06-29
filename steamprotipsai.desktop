@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=SteamProTipsAI
-Exec=/app/launch.sh
-Icon=utilities-terminal
+Exec=steamprotipsai
+Icon=com.lepsistemas.SteamProTipsAI
 Terminal=true
 Type=Application
 Categories=Game;Utility;

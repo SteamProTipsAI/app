@@ -1,4 +1,7 @@
-# Ignora todos os caches compilados do Python
+# Ignore Python
 __pycache__/
 **/__pycache__/
 *.py[cod]
+
+# Ignore Flatpak
+.flatpak-builder/
