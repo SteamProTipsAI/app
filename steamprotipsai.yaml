@@ -13,7 +13,7 @@ modules:
      - install -Dm644 com.lepsistemas.SteamProTipsAI.desktop /app/etc/xdg/autostart/com.lepsistemas.SteamProTipsAI.desktop
      - mkdir -p /app/src
      - cp -r src/steamprotipsai /app/src/steamprotipsai
-     - pip3 install --no-cache-dir -r requirements.txt
+     - python3 -m pip install --prefix=/app --no-cache-dir -r requirements.txt
    sources:
      - type: dir
        path: .
