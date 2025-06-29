@@ -1,3 +1,4 @@
+from unittest.mock import patch
 from unittest.mock import MagicMock
 from steamprotipsai.core.app import SteamProTipsApp
 from steamprotipsai.core.ports import ScreenshotCapturer, GameDetector, GPTClient, ScreenshotWatcher
@@ -26,6 +27,7 @@ def test_app_triggers_tip_flow_on_screenshot():
         game_detector=mock_game,
         gpt_client=mock_gpt,
         screenshot_watcher=mock_watcher,
+        status_reporter=None
     )
 
     # Act
@@ -37,10 +39,9 @@ def test_app_triggers_tip_flow_on_screenshot():
 
     # Simulate screenshot detection (bypassing zenity)
     app._handle_screenshot = SteamProTipsApp._handle_screenshot.__get__(app)
-    SteamProTipsApp._handle_screenshot.__globals__["subprocess"] = MagicMock()
-    SteamProTipsApp._handle_screenshot.__globals__["subprocess"].run.return_value.returncode = 0
-
-    captured_callback("new_screenshot.png")
+    with patch("subprocess.run") as mock_run:
+        mock_run.return_value.returncode = 0
+        captured_callback("new_screenshot.png")
 
     # Assert ports called
     mock_game.detect.assert_called_once()

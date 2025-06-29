@@ -18,7 +18,7 @@ class SteamProTipsApp:
         self.screenshot_capturer = screenshot_capturer
         self.game_detector = game_detector
         self.gpt_client = gpt_client
-        self.screenshot_watcher = screenshot_watcher,
+        self.screenshot_watcher = screenshot_watcher
         self.status_reporter = status_reporter
 
     def run(self):
