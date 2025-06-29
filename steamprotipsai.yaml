@@ -2,23 +2,34 @@ app-id: com.lepsistemas.SteamProTipsAI
 runtime: org.freedesktop.Platform
 runtime-version: '23.08'
 sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.python3
 command: steamprotipsai
+
 modules:
- - name: steamprotipsai
-   buildsystem: simple
-   build-commands:
-     - install -Dm755 launch.sh /app/bin/steamprotipsai
-     - install -Dm644 icons/hicolor/512x512/apps/com.lepsistemas.SteamProTipsAI.png /app/share/icons/hicolor/512x512/apps/com.lepsistemas.SteamProTipsAI.png
-     - install -Dm644 com.lepsistemas.SteamProTipsAI.desktop /app/share/applications/com.lepsistemas.SteamProTipsAI.desktop
-     - install -Dm644 com.lepsistemas.SteamProTipsAI.desktop /app/etc/xdg/autostart/com.lepsistemas.SteamProTipsAI.desktop
-     - mkdir -p /app/src
-     - cp -r src/steamprotipsai /app/src/steamprotipsai
-     - python3 -m pip install --prefix=/app --no-cache-dir -r requirements.txt
-   sources:
-     - type: dir
-       path: .
-     - type: file
-       path: requirements.txt
+  - name: python3-deps
+    buildsystem: simple
+    build-commands: []
+    build-options:
+      append-path: /usr/lib/sdk/python3/bin
+    sources: []
+
+  - name: steamprotipsai
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 launch.sh /app/bin/steamprotipsai
+      - install -Dm644 icons/hicolor/512x512/apps/com.lepsistemas.SteamProTipsAI.png /app/share/icons/hicolor/512x512/apps/com.lepsistemas.SteamProTipsAI.png
+      - install -Dm644 com.lepsistemas.SteamProTipsAI.desktop /app/share/applications/com.lepsistemas.SteamProTipsAI.desktop
+      - install -Dm644 com.lepsistemas.SteamProTipsAI.desktop /app/etc/xdg/autostart/com.lepsistemas.SteamProTipsAI.desktop
+      - mkdir -p /app/src
+      - cp -r src/steamprotipsai /app/src/steamprotipsai
+      - python3 -m pip install --no-cache-dir --prefix=/app -r requirements.txt
+    sources:
+      - type: dir
+        path: .
+      - type: file
+        path: requirements.txt
+
 finish-args:
   - --filesystem=home
   - --filesystem=xdg-pictures/Steam:ro

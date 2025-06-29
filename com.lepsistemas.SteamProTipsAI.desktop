@@ -3,11 +3,13 @@ Name=Steam Pro Tips AI
 Comment=Listens for Steam screenshots and gives AI tips while you play
 Exec=steamprotipsai
 Icon=com.lepsistemas.SteamProTipsAI
-Terminal=true
+Terminal=false
 Type=Application
 Categories=Game;Utility;
 
 X-GNOME-Autostart-enabled=true
 X-GNOME-Autostart-Delay=3
+X-KDE-autostart-after=panel
+StartupNotify=false
 Hidden=false
 NoDisplay=false
