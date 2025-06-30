@@ -11,10 +11,17 @@ finish-args:
   - --share=network
 
 modules:
+  - name: rust-stable
+    buildsystem: simple
+    build-commands:
+      - curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable
+      - ~/.cargo/bin/rustc --version
+    sources: []
+
   - name: steamprotipsai
     buildsystem: simple
     build-commands:
-      - cargo build --release
+      - ~/.cargo/bin/cargo build --release
       - install -Dm755 target/release/steam_pro_tips_ai /app/bin/steamprotipsai
       - install -Dm644 flatpak/com.lepsistemas.SteamProTipsAI.desktop /app/share/applications/com.lepsistemas.SteamProTipsAI.desktop
       - install -Dm644 flatpak/com.lepsistemas.SteamProTipsAI.desktop /app/etc/xdg/autostart/com.lepsistemas.SteamProTipsAI.desktop
