@@ -1,4 +1,5 @@
 # Rust
+.cargo/
 /target
 **/*.rs.bk
 Cargo.lock
@@ -14,6 +15,7 @@ result/
 *.tar.gz
 *.flatpakref
 *.json~
+vendor/
 
 # Backup files
 *~
