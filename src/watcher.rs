@@ -1,9 +1,9 @@
-use notify::{Event, EventKind, RecursiveMode, Watcher};
+use notify::{Event, RecursiveMode, Watcher};
+use std::fs;
 use std::path::{Path, PathBuf};
 use std::sync::mpsc::Sender;
 use std::thread;
 use std::time::Duration;
-use std::fs;
 use dirs_next;
 
 pub fn start_watching(tx: Sender<String>) -> notify::Result<()> {
@@ -21,13 +21,11 @@ pub fn start_watching(tx: Sender<String>) -> notify::Result<()> {
 
     let mut watcher = notify::recommended_watcher(move |res: Result<Event, notify::Error>| {
         if let Ok(event) = res {
-            if matches!(event.kind, EventKind::Create(_)) {
-                for path in event.paths {
-                    if let Some(ext) = path.extension() {
-                        if ext == "jpg" || ext == "png" {
-                            println!("Screenshot detected: {path:?}");
-                            let _ = tx.send(path.to_string_lossy().to_string());
-                        }
+            for path in &event.paths {
+                if let Some(ext) = path.extension() {
+                    if ext == "jpg" || ext == "png" {
+                        println!("Screenshot detected: {path:?}");
+                        let _ = tx.send(path.to_string_lossy().to_string());
                     }
                 }
             }
