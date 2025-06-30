@@ -1,34 +1,26 @@
-use gtk4::prelude::*;
-use gtk4::{Application, ApplicationWindow, Button, Label, Box as GtkBox, Orientation};
+use notify_rust::Notification;
 
 pub fn show_dialog(image_path: String) {
-    let app = Application::builder()
-        .application_id("com.steamprotips.Gui")
-        .build();
+    let result = Notification::new()
+        .summary("Steam Pro Tips AI")
+        .body("Want a tip for this moment?")
+        .icon("dialog-question")
+        .action("yes", "Sure!")
+        .action("no", "No thanks")
+        .show()
+        .and_then(|handle| handle.wait_for_action());
 
-    app.connect_activate(move |app| {
-        let vbox = GtkBox::new(Orientation::Vertical, 12);
-        let label = Label::new(Some("Want some tips for this moment?"));
-        let button = Button::with_label("Sure!");
-
-        let img_path = image_path.clone();
-        button.connect_clicked(move |_| {
-            println!("User wants a tip for: {}", img_path);
-        });
-
-        vbox.append(&label);
-        vbox.append(&button);
-
-        let win = ApplicationWindow::builder()
-            .application(app)
-            .title("Steam Pro Tips AI")
-            .child(&vbox)
-            .default_width(300)
-            .default_height(100)
-            .build();
-
-        win.show();
-    });
-
-    app.run();
+    match result {
+        Ok("yes") => {
+            println!("User accepted tip for: {image_path}");
+            // Call AI logic here
+        }
+        Ok("no") => {
+            println!("User declined tip for: {image_path}");
+        }
+        Ok(_) => {}
+        Err(e) => {
+            eprintln!("Notification error: {}", e);
+        }
+    }
 }
