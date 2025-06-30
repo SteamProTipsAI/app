@@ -8,12 +8,12 @@ pub fn show_dialog(image_path: String) {
 
     app.connect_activate(move |app| {
         let vbox = GtkBox::new(Orientation::Vertical, 12);
-        let label = Label::new(Some("Deseja uma dica para esse momento?"));
-        let button = Button::with_label("Sim!");
+        let label = Label::new(Some("Want some tips for this moment?"));
+        let button = Button::with_label("Sure!");
 
-        let img_path = image_path.clone(); // ou só use diretamente no closure se for 1 vez
+        let img_path = image_path.clone();
         button.connect_clicked(move |_| {
-            println!("Usuário confirmou dica para: {}", img_path);
+            println!("User wants a tip for: {}", img_path);
         });
 
         vbox.append(&label);
@@ -21,7 +21,7 @@ pub fn show_dialog(image_path: String) {
 
         let win = ApplicationWindow::builder()
             .application(app)
-            .title("SteamProTipsAI")
+            .title("Steam Pro Tips AI")
             .child(&vbox)
             .default_width(300)
             .default_height(100)

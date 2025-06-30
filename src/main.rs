@@ -9,12 +9,12 @@ fn main() {
 
     thread::spawn(move || {
         if let Err(e) = watcher::start_watching(tx) {
-            eprintln!("Erro ao iniciar watcher: {e}");
+            eprintln!("Error starting screenshot watcher: {e}");
         }
     });
 
     for screenshot_path in rx {
-        println!("Nova screenshot detectada: {screenshot_path}");
+        println!("New screenshot detected: {screenshot_path}");
         gui::show_dialog(screenshot_path);
     }
 }
