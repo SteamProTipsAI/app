@@ -1,7 +1,7 @@
 app-id: com.lepsistemas.SteamProTipsAI
-runtime: org.gnome.Platform
-runtime-version: '45'
-sdk: org.gnome.Sdk
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
 command: steamprotipsai
 
 sdk-extensions:
@@ -20,7 +20,6 @@ finish-args:
 modules:
   - name: steamprotipsai
     buildsystem: simple
-    subdir: app
     build-commands:
       - cargo build --offline --release
       - install -Dm755 target/release/steam_pro_tips_ai /app/bin/steamprotipsai
