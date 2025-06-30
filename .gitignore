@@ -1,0 +1,19 @@
+# Rust
+/target
+**/*.rs.bk
+Cargo.lock
+
+# IDEs
+.vscode/
+.idea/
+
+# Flatpak build
+flatpak-build/
+result/
+*.flatpak
+*.tar.gz
+*.flatpakref
+*.json~
+
+# Backup files
+*~
