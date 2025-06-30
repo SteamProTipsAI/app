@@ -20,7 +20,6 @@ finish-args:
 modules:
   - name: steamprotipsai
     buildsystem: simple
-    subdir: app
     build-commands:
       - cargo build --release
       - install -Dm755 target/release/steam_pro_tips_ai /app/bin/steamprotipsai
