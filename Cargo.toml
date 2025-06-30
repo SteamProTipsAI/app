@@ -1,10 +1,10 @@
 [package]
 name = "steam_pro_tips_ai"
 version = "0.1.0"
-edition = "2021"
+edition = "2025"
 
 [dependencies]
-gtk4 = { version = "0.7", package = "gtk4" }
+gtk4 = "0.7.3"
 glib = "0.17"
 notify = "6.1"
 image = "0.24"
