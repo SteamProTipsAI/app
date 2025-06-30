@@ -1,7 +1,7 @@
 app-id: com.lepsistemas.SteamProTipsAI
-runtime: org.freedesktop.Platform
-runtime-version: '24.08'
-sdk: org.freedesktop.Sdk
+runtime: org.gnome.Platform
+runtime-version: '45'
+sdk: org.gnome.Sdk
 command: steamprotipsai
 
 sdk-extensions:
@@ -9,9 +9,6 @@ sdk-extensions:
 
 build-options:
   append-path: /usr/lib/sdk/rust-stable/bin
-  env:
-    PKG_CONFIG_ALLOW_SYSTEM_CFLAGS: "1"
-    PKG_CONFIG_PATH: "/usr/lib/pkgconfig:/usr/share/pkgconfig:/app/lib/pkgconfig:/app/share/pkgconfig"
 
 finish-args:
   - --filesystem=home
@@ -21,17 +18,9 @@ finish-args:
   - --share=network
 
 modules:
-  - name: gtk4-dev-deps
-    buildsystem: simple
-    build-commands:
-      - |
-        echo "Installing GTK4 dev packages..."
-        flatpak install -y --noninteractive org.freedesktop.Sdk//24.08
-        flatpak install -y --noninteractive org.gnome.Sdk//44
-    sources: []
-
   - name: steamprotipsai
     buildsystem: simple
+    subdir: app
     build-commands:
       - cargo build --offline --release
       - install -Dm755 target/release/steam_pro_tips_ai /app/bin/steamprotipsai
